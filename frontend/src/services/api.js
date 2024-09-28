@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/transactions';  // Your backend API URL
+const API_URL = 'https://transaction-dashboard-u2z3.onrender.com/api/transactions';  
 
 // Fetch transactions based on month, search, pagination
 export const fetchTransactions = async (month, page = 1, search = '') => {
