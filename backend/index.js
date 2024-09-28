@@ -9,8 +9,17 @@ const dotenv =require("dotenv");
 
 dotenv.config();
 // Middleware
-app.use(cors());
+
 app.use(express.json());
+app.use(
+  //frontend link
+cors({
+origin:"https://transaction-dashboard-omega.vercel.app" ,
+credentials :true
+}) 
+
+
+)
 
 database.connect();
 
