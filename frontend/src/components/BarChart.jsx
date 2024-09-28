@@ -36,7 +36,6 @@ const BarChart = ({ month }) => {
     return <div>Error: {error}</div>;
   }
 
-  // Ensure there is data to plot
   if (!priceRangeData.length) {
     return <div>No data available for the selected month.</div>;
   }

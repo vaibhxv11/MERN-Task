@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { fetchStatistics } from "../services/api";  // Import the fetchStatistics function
-import { getMonthName } from "../utils/monthUtils";  // Import the utility function
+import { fetchStatistics } from "../services/api";  
+import { getMonthName } from "../utils/monthUtils";  
 
 const Statistics = ({ month }) => {
   const [statistics, setStatistics] = useState(null);
@@ -16,7 +16,7 @@ const Statistics = ({ month }) => {
 
   const fetchStatisticsForMonth = async (month) => {
     try {
-      const data = await fetchStatistics(month);  // Use the fetchStatistics function
+      const data = await fetchStatistics(month);  
       setStatistics(data);
       setLoading(false);
     } catch (err) {

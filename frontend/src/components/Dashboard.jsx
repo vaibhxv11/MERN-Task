@@ -19,22 +19,21 @@ const Dashboard = () => {
 
   const entriesPerPage = 10;
 
-  // Fetch data from the given URL when the component mounts or month changes
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await fetch('https://s3.amazonaws.com/roxiler.com/product_transaction.json', { mode: 'no-cors' });
+        const response = await fetch('https://s3.amazonaws.com/roxiler.com/product_transaction.json');
 
         const data = await response.json();
         
         // Filter transactions by month
         const filteredTransactions = data.filter(item => {
-          const transactionDate = new Date(item.dateOfSale); // Use 'dateOfSale' property
-          return transactionDate.getMonth() + 1 === parseInt(month); // Month is 0-based in JS
+          const transactionDate = new Date(item.dateOfSale); 
+          return transactionDate.getMonth() + 1 === parseInt(month); 
         });
 
-        setTransactions(filteredTransactions); // Set the filtered data into the state
+        setTransactions(filteredTransactions); 
         setFilteredTransactions(filteredTransactions); // Initialize filtered data
         setLoading(false);
       } catch (error) {
@@ -82,7 +81,7 @@ const Dashboard = () => {
       setFilteredTransactions(transactions);
     }
 
-    setPage(1); // Reset to the first page whenever the search input changes
+    setPage(1); 
   };
 
   return (
