@@ -7,6 +7,7 @@ import Statistics from "./Statistics";
 import BarChart from "./BarChart";
 import PieChart from "./PieChart";
 
+
 const Dashboard = () => {
   const [transactions, setTransactions] = useState([]); // Data fetched from the API
   const [filteredTransactions, setFilteredTransactions] = useState([]); // Filtered data based on search
@@ -20,24 +21,55 @@ const Dashboard = () => {
   const entriesPerPage = 10;
 
   // Fetch data from the given URL when the component mounts or month changes
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const response = await fetch('https://s3.amazonaws.com/roxiler.com/product_transaction.json');
+  //       const data = await response.json();
+        
+  //       // Filter transactions by month
+  //       const filteredTransactions = data.filter(item => {
+  //         const transactionDate = new Date(item.dateOfSale); // Use 'dateOfSale' property
+  //         return transactionDate.getMonth() + 1 === parseInt(month); // Month is 0-based in JS
+  //       });
+
+  //       setTransactions(filteredTransactions); // Set the filtered data into the state
+  //       setFilteredTransactions(filteredTransactions); // Initialize filtered data
+  //       setLoading(false);
+  //     } catch (error) {
+  //       setError('Failed to fetch data.');
+  //       setLoading(false);
+  //     }
+  //   };
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+      setError(null); // Reset the error state before making the request
+
       try {
-        const response = await fetch('https://s3.amazonaws.com/roxiler.com/product_transaction.json');
-        const data = await response.json();
+        // Fetch data from the serverless function instead of directly from S3
+        const response = await fetch('/api/fetch-data');
         
+        if (!response.ok) {
+          throw new Error('Failed to fetch data from the server');
+        }
+
+        const data = await response.json();
+
         // Filter transactions by month
         const filteredTransactions = data.filter(item => {
           const transactionDate = new Date(item.dateOfSale); // Use 'dateOfSale' property
-          return transactionDate.getMonth() + 1 === parseInt(month); // Month is 0-based in JS
+          return transactionDate.getMonth() + 1 === parseInt(month); // Months are 0-based in JS
         });
 
-        setTransactions(filteredTransactions); // Set the filtered data into the state
+        // Set the state with filtered transactions
+        setTransactions(filteredTransactions);
         setFilteredTransactions(filteredTransactions); // Initialize filtered data
-        setLoading(false);
       } catch (error) {
         setError('Failed to fetch data.');
+      } finally {
         setLoading(false);
       }
     };
