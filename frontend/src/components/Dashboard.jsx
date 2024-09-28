@@ -24,7 +24,8 @@ const Dashboard = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await fetch('https://s3.amazonaws.com/roxiler.com/product_transaction.json');
+        const response = await fetch('https://cors-anywhere.herokuapp.com/https://s3.amazonaws.com/roxiler.com/product_transaction.json');
+
         const data = await response.json();
         
         // Filter transactions by month
