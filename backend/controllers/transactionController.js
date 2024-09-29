@@ -51,7 +51,6 @@ const getStatistics = async (req, res) => {
     const response = await axios.get('https://s3.amazonaws.com/roxiler.com/product_transaction.json');
     const transactions = response.data;
 
-    console.log("Fetched Transactions Count:", transactions.length); // Log the number of transactions
 
     // Filter transactions based on the month
     const filteredTransactions = transactions.filter(transaction => {
@@ -67,7 +66,6 @@ const getStatistics = async (req, res) => {
 
     
     const totalSale = filteredTransactions.reduce((sum, transaction) => {
-      console.log("Transaction Price:", transaction.price); // Log each price
       return sum + (transaction.sold ? transaction.price : 0); // Only sum the price if sold
     }, 0);
 

@@ -18,14 +18,9 @@ origin:"https://transaction-dashboard-omega.vercel.app" ,
 credentials :true
 }) 
 
-
 )
 
-
-
 database.connect();
-
-
 
 // Routes
 app.use('/api/transactions', transactionRoutes);
