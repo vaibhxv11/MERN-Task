@@ -23,10 +23,11 @@ const Dashboard = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await fetch('https://s3.amazonaws.com/roxiler.com/product_transaction.json');
+        const response = await fetch('https://transaction-dashboard-u2z3.onrender.com/api/transactions');
 
         const data = await response.json();
-        
+
+  
         // Filter transactions by month
         const filteredTransactions = data.filter(item => {
           const transactionDate = new Date(item.dateOfSale); 
