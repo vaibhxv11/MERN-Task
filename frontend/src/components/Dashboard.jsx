@@ -43,18 +43,17 @@ const Dashboard = () => {
     //   }
     // };
     const fetchData = async () => {
-      setLoading(true);  // Start loading state
-      setError('');      // Clear any previous errors
+      setLoading(true);  
+      setError('');      
     
       try {
-        // Prefix the API URL with CORS Anywhere proxy
-        const corsAnywhereUrl = 'https://cors-anywhere.herokuapp.com/';
+        const thingproxy = 'https://thingproxy.freeboard.io/fetch/';
         const apiUrl = 'https://s3.amazonaws.com/roxiler.com/product_transaction.json';
     
         // Fetch the data with CORS proxy
-        const response = await fetch(`${corsAnywhereUrl}${apiUrl}`);
+        const response = await fetch(`${thingproxy}${apiUrl}`);
     
-        // Check if the response is OK (status code 200-299)
+       
         if (!response.ok) {
           throw new Error(`Error: ${response.status} - ${response.statusText}`);
         }
@@ -64,7 +63,7 @@ const Dashboard = () => {
         // Filter transactions by month
         const filteredTransactions = data.filter(item => {
           const transactionDate = new Date(item.dateOfSale);
-          return transactionDate.getMonth() + 1 === parseInt(month); // Assuming 'month' is defined
+          return transactionDate.getMonth() + 1 === parseInt(month); 
         });
     
         // Update the state with filtered transactions
@@ -75,12 +74,11 @@ const Dashboard = () => {
         console.error('Fetch error:', error);
         setError(error.message || 'Failed to fetch data.');
       } finally {
-        // Stop loading state whether request was successful or not
         setLoading(false);
       }
     };
     fetchData();
-  }, [month]); // Dependency array includes month
+  }, [month]); 
 
   // Get the current page's transactions
   const paginatedData = filteredTransactions.slice((page - 1) * entriesPerPage, page * entriesPerPage);
