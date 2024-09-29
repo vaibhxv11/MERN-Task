@@ -47,12 +47,14 @@ const Dashboard = () => {
       setError('');      
     
       try {
-        const thingproxy = 'https://thingproxy.freeboard.io/fetch/';
+        // const thingproxy = 'https://thingproxy.freeboard.io/fetch/';
         const apiUrl = 'https://s3.amazonaws.com/roxiler.com/product_transaction.json';
     
         // Fetch the data with CORS proxy
-        const response = await fetch(`${thingproxy}${apiUrl}`);
-    
+         
+        const response = await fetch(apiUrl, {
+          mode: 'no-cors'
+        });
        
         if (!response.ok) {
           throw new Error(`Error: ${response.status} - ${response.statusText}`);
