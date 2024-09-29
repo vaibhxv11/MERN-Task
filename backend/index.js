@@ -30,15 +30,6 @@ database.connect();
 // Routes
 app.use('/api/transactions', transactionRoutes);
 
-app.get('/api/transactions',   
-  async (req, res) => {
-   try {
-     const response = await axios.get('https://s3.amazonaws.com/roxiler.com/product_transaction.json');
-     res.json(response.data);
-   } catch (error) {
-     res.status(500).json({ error: 'Failed to fetch data' });
-   }
- });
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

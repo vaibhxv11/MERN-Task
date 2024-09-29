@@ -20,29 +20,65 @@ const Dashboard = () => {
   const entriesPerPage = 10;
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch('https://transaction-dashboard-u2z3.onrender.com/api/transactions');
+    // const fetchData = async () => {
+    //   setLoading(true);
+    //   try {
+    //     const response = await fetch('https://transaction-dashboard-u2z3.onrender.com/api/transactions');
 
-        const data = await response.json();
+    //     const data = await response.json();
 
   
+    //     // Filter transactions by month
+    //     const filteredTransactions = data.filter(item => {
+    //       const transactionDate = new Date(item.dateOfSale); 
+    //       return transactionDate.getMonth() + 1 === parseInt(month); 
+    //     });
+
+    //     setTransactions(filteredTransactions); 
+    //     setFilteredTransactions(filteredTransactions); // Initialize filtered data
+    //     setLoading(false);
+    //   } catch (error) {
+    //     setError('Failed to fetch data.');
+    //     setLoading(false);
+    //   }
+    // };
+    const fetchData = async () => {
+      setLoading(true);  // Start loading state
+      setError('');      // Clear any previous errors
+    
+      try {
+        // Prefix the API URL with CORS Anywhere proxy
+        const corsAnywhereUrl = 'https://cors-anywhere.herokuapp.com/';
+        const apiUrl = 'https://s3.amazonaws.com/roxiler.com/product_transaction.json';
+    
+        // Fetch the data with CORS proxy
+        const response = await fetch(`${corsAnywhereUrl}${apiUrl}`);
+    
+        // Check if the response is OK (status code 200-299)
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+    
+        const data = await response.json();
+    
         // Filter transactions by month
         const filteredTransactions = data.filter(item => {
-          const transactionDate = new Date(item.dateOfSale); 
-          return transactionDate.getMonth() + 1 === parseInt(month); 
+          const transactionDate = new Date(item.dateOfSale);
+          return transactionDate.getMonth() + 1 === parseInt(month); // Assuming 'month' is defined
         });
-
-        setTransactions(filteredTransactions); 
-        setFilteredTransactions(filteredTransactions); // Initialize filtered data
-        setLoading(false);
+    
+        // Update the state with filtered transactions
+        setTransactions(filteredTransactions);
+        setFilteredTransactions(filteredTransactions);
       } catch (error) {
-        setError('Failed to fetch data.');
+        // Capture error and set error message
+        console.error('Fetch error:', error);
+        setError(error.message || 'Failed to fetch data.');
+      } finally {
+        // Stop loading state whether request was successful or not
         setLoading(false);
       }
     };
-
     fetchData();
   }, [month]); // Dependency array includes month
 
