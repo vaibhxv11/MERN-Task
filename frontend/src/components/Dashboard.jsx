@@ -27,7 +27,7 @@ const Dashboard = () => {
 
     //     const data = await response.json();
 
-  
+
     //     // Filter transactions by month
     //     const filteredTransactions = data.filter(item => {
     //       const transactionDate = new Date(item.dateOfSale); 
@@ -43,31 +43,27 @@ const Dashboard = () => {
     //   }
     // };
     const fetchData = async () => {
-      setLoading(true);  
-      setError('');      
-    
+      setLoading(true);
+      setError('');
+
       try {
-        // const thingproxy = 'https://thingproxy.freeboard.io/fetch/';
-        const apiUrl = 'https://s3.amazonaws.com/roxiler.com/product_transaction.json';
-    
-        // Fetch the data with CORS proxy
-         
-        const response = await fetch(apiUrl, {
-          mode: 'no-cors'
-        });
-       
+
+        const apiUrl = 'https://transaction-dashboard-u2z3.onrender.com/api/transactions/data'; // Your backend API URL
+
+        const response = await fetch(apiUrl);
+        
         if (!response.ok) {
           throw new Error(`Error: ${response.status} - ${response.statusText}`);
         }
-    
+
         const data = await response.json();
-    
+
         // Filter transactions by month
         const filteredTransactions = data.filter(item => {
           const transactionDate = new Date(item.dateOfSale);
-          return transactionDate.getMonth() + 1 === parseInt(month); 
+          return transactionDate.getMonth() + 1 === parseInt(month);
         });
-    
+
         // Update the state with filtered transactions
         setTransactions(filteredTransactions);
         setFilteredTransactions(filteredTransactions);
@@ -80,7 +76,7 @@ const Dashboard = () => {
       }
     };
     fetchData();
-  }, [month]); 
+  }, [month]);
 
   // Get the current page's transactions
   const paginatedData = filteredTransactions.slice((page - 1) * entriesPerPage, page * entriesPerPage);
@@ -118,7 +114,7 @@ const Dashboard = () => {
       setFilteredTransactions(transactions);
     }
 
-    setPage(1); 
+    setPage(1);
   };
 
   return (
@@ -179,7 +175,7 @@ const Dashboard = () => {
                     {paginatedData.map((item) => {
                       const isExpanded = expanded[item.id]; // Check if description is expanded for this item
                       const shortDescription = item.description.slice(0, 100); // Show only the first 100 characters
-                      
+
                       return (
                         <tr key={item.id}>
                           <td className="border border-yellow-500 px-4 py-2 text-center">{item.id}</td>
@@ -237,8 +233,8 @@ const Dashboard = () => {
         )}
       </div>
 
-      <Statistics month={month}/>
-      <BarChart month={month}/>
+      <Statistics month={month} />
+      <BarChart month={month} />
       <PieChart month={month} />
     </div>
   );
