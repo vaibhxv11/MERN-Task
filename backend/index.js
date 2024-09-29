@@ -11,15 +11,21 @@ dotenv.config();
 
 
 app.use(express.json());
-app.use(
-  //frontend link
-cors({
-origin:"https://transaction-dashboard-omega.vercel.app" ,
-credentials :true
-}) 
+// app.use(
+//   //frontend link
+// cors({
+// origin:"https://transaction-dashboard-omega.vercel.app" ,
+// credentials :true
+// }) 
 
 
-)
+// )
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://transaction-dashboard-omega.vercel.app');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 database.connect();
 
